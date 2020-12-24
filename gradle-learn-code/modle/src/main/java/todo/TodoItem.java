@@ -1,4 +1,4 @@
-package cn.tiakon.gradle.todo;
+package todo;
 
 public class TodoItem {
 
@@ -30,4 +30,5 @@ public class TodoItem {
     public String toString() {
         return name + (hasDone ? " hasDone!" : " need todo...");
     }
+
 }

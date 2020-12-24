@@ -1,0 +1,6 @@
+rootProject.name = 'gradle-learn-code'
+include 'modle'
+include 'repository'
+include 'web'
+
+// 管理项目构建，管理当前项目哪有些子项目。

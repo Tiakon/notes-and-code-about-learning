@@ -1,0 +1,116 @@
+/**
+ *
+ * Groovy与Java相比较：
+ * 1. Groovy 完全兼容Java的语法。
+ * 2. 分号可选。
+ * 3. 类、方法默认是 public 修饰。
+ * 4. 编译器默认给属性添加getter、setter方法。
+ * 5. 属性可以使用点号访问。
+ * 6. 最后一个表达式的值会被作为返回值。
+ * 7. equals 等同于 == 不会出现空指针异常(NullPointerException)
+ * 8. 可使用 assert 语句。
+ * 9. 可选类型定义。
+ * 10. 可选的括号。
+ * 11. 三种字符串的表达方式。
+ * 12. 更简单的集合Api
+ * 13. 闭包
+ *
+ * */
+
+public class ProjectVersion {
+
+    private int major;
+    private int minor;
+
+    ProjectVersion(int major, int minor) {
+        this.major = major
+        this.minor = minor
+    }
+
+    int getMajor() {
+        return major
+    }
+
+    void setMajor(int major) {
+        this.major = major
+    }
+
+    int getMinor() {
+        return minor
+    }
+
+    void setMinor(int minor) {
+        this.minor = minor
+    }
+}
+
+ProjectVersion v1 = new ProjectVersion(1, 2);
+ProjectVersion v2 = null;
+
+println v1.major
+
+println v2.equals(v1)
+
+def version = 1
+
+//assert version == 2
+
+println(version)
+println version
+
+def s1 = 'imooc'
+
+// 可插入变量
+def s2 = "gradle version is ${version}"
+
+// 可换行
+def s3 = """ gradle
+                    is next generation
+                                         build tool """
+
+println(s1)
+println(s2)
+println(s3)
+
+
+//list集合
+def buildList = ['ant', 'maven']
+
+buildList << 'gradle'
+
+assert buildList.getClass() == ArrayList
+
+assert buildList.size() == 3
+
+
+//Map集合
+def buildMap = ['ant': 2000, 'maven': 2004]
+buildMap.gradle = 2013
+println buildMap.maven
+println buildMap['gradle']
+println buildMap.getClass()
+
+
+// 闭包
+def c1 = {
+    v ->
+        println v
+}
+
+def c2 = {
+    println 'hello'
+}
+
+def method1(Closure closure) {
+    closure('param')
+}
+
+def method2(Closure closure) {
+    closure()
+}
+
+method1(c1)
+
+method2(c2)
+
+
