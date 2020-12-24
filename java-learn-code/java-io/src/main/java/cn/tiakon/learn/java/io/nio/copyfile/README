@@ -1,0 +1,60 @@
+
+
+noBufferStreamCopy: 单字节流读。
+bufferedStreamCopy: 使用nio api 利用read() , 加上1024大小的字节数组作为缓冲区。
+nioBufferCopy: 使用nio api 利用read() , 加上1024大小的 ByteBuffer 作为缓冲区。
+nioTransferCopy: 使用nio api 利用 transferTo()复制文件。
+
+---Copying small file（200KB）---
+noBufferStreamCopy: : 1726
+bufferedStreamCopy: : 0
+nioBufferCopy: : 2
+nioTransferCopy: : 0
+---Copying big file（50MB）---
+bufferedStreamCopy: : 64
+nioBufferCopy: : 407
+nioTransferCopy: : 6
+---Copying huge file（1.2GB）---
+bufferedStreamCopy: : 1602
+nioBufferCopy: : 10738
+nioTransferCopy: : 165
+
+
+noBufferStreamCopy: 单字节流读。
+bufferedStreamCopy: 1024 * 8
+nioBufferCopy: 1024 * 8
+nioTransferCopy: 使用nio api 利用 transferTo()复制文件。
+
+---Copying small file---
+noBufferStreamCopy: : 1715
+bufferedStreamCopy: : 0
+nioBufferCopy: : 0
+nioTransferCopy: : 0
+---Copying big file---
+bufferedStreamCopy: : 60
+nioBufferCopy: : 60
+nioTransferCopy: : 5
+---Copying huge file---
+bufferedStreamCopy: : 1509
+nioBufferCopy: : 1548
+nioTransferCopy: : 146
+
+重复10次
+noBufferStreamCopy: 单字节流读。
+bufferedStreamCopy: 1024 * 8
+nioBufferCopy: 1024 * 8
+nioTransferCopy: 使用nio api 利用 transferTo()复制文件。
+
+---Copying small file---
+noBufferStreamCopy : 877
+bufferedStreamCopy : 0
+nioBufferCopy : 0
+nioTransferCopy : 0
+---Copying big file---
+bufferedStreamCopy : 33
+nioBufferCopy : 32
+nioTransferCopy : 3
+---Copying huge file---
+bufferedStreamCopy : 799
+nioBufferCopy : 796
+nioTransferCopy : 84
