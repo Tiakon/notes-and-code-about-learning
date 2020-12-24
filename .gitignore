@@ -1,6 +1,9 @@
 # Created by .ignore support plugin (hsz.mobi)
 .gitignore
-.idea/
+.gradle
+.idea
+*.iml
+
 flink-learning-notes-and-code/flink-learning-notes-and-code.iml
 
 
