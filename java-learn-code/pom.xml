@@ -16,6 +16,7 @@
         <module>java-multi-thread</module>
         <module>java-concurrency</module>
         <module>java-books</module>
+        <module>jvm-learn-code</module>
     </modules>
 
 </project>
