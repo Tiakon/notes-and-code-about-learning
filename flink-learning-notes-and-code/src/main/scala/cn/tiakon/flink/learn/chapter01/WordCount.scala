@@ -1,4 +1,4 @@
-package cn.tiakon.flink.learn.code
+package cn.tiakon.flink.learn.chapter01
 
 import org.apache.flink.api.java.utils.ParameterTool
 import org.apache.flink.api.scala.{ExecutionEnvironment, _}
@@ -15,7 +15,7 @@ import org.apache.flink.api.scala.{ExecutionEnvironment, _}
   * }}}
   *
   * If no parameters are provided, the program is run with default data from
-  * [[cn.tiakon.flink.learn.code.WordCountData]]
+  * [[cn.tiakon.flink.learn.chapter01.WordCountData]]
   *
   * This example shows how to:
   *

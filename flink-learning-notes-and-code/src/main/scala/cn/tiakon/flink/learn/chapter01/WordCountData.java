@@ -1,4 +1,4 @@
-package cn.tiakon.flink.learn.code;
+package cn.tiakon.flink.learn.chapter01;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
