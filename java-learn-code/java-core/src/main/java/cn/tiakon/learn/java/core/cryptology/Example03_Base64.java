@@ -1,7 +1,6 @@
 package cn.tiakon.learn.java.core.cryptology;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
+import java.util.Base64;
 
 /**
  * Base64是网络上最常见的用于传输8Bit字节码的可读性编码算法之一
@@ -23,12 +22,12 @@ public class Example03_Base64 {
     // 大家可能发现一个问题，咱们的base64有个 = 号，但是在映射表里面没有发现 = 号 ， 这个地方需要注意，等号非常特殊，因为base64是三个字节一组 ，如果当我们的位数不够的时候，会使用等号来补齐
     public static void main(String[] args) {
         //  1：MQ== 表示一个字节，不够三个字节，所以需要后面通过 == 号补齐
-        System.out.println(Base64.encode("1".getBytes()));
+        System.out.println(new String(Base64.getEncoder().encode("1".getBytes())));
         // MTI=
-        System.out.println(Base64.encode("12".getBytes()));
+        System.out.println(new String(Base64.getEncoder().encode("12".getBytes())));
         // MTIz
-        System.out.println(Base64.encode("123".getBytes()));
+        System.out.println(new String(Base64.getEncoder().encode("123".getBytes())));
         // 硅谷:中文占6个字节，6 * 8 = 48 ，刚刚好被整除，所以没有等号
-        System.out.println(Base64.encode("硅谷".getBytes()));
+        System.out.println(new String(Base64.getEncoder().encode("硅谷".getBytes())));
     }
 }

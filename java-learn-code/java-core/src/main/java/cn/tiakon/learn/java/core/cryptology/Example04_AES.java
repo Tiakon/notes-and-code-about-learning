@@ -1,9 +1,8 @@
 package cn.tiakon.learn.java.core.cryptology;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
 
 public class Example04_AES {
 
@@ -47,7 +46,7 @@ public class Example04_AES {
         // 加密
         byte[] bytes = cipher.doFinal(input.getBytes());
         // 输出加密后的数据
-        String encode = Base64.encode(bytes);
+        String encode = Base64.getEncoder().encodeToString(bytes);
         return encode;
     }
 
@@ -68,7 +67,7 @@ public class Example04_AES {
         SecretKeySpec sks = new SecretKeySpec(key.getBytes(), algorithm);
         cipher.init(Cipher.DECRYPT_MODE, sks);
         // 3. 解密
-        byte[] bytes = cipher.doFinal(Base64.decode(input));
+        byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(input));
 
         return new String(bytes);
     }

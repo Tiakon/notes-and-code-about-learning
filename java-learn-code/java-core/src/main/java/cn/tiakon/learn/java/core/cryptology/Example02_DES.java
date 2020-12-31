@@ -1,7 +1,5 @@
 package cn.tiakon.learn.java.core.cryptology;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
-
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -9,6 +7,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 
 public class Example02_DES {
 
@@ -82,10 +81,8 @@ public class Example02_DES {
         cipher.init(Cipher.ENCRYPT_MODE, sks);
         // 加密
         byte[] bytes = cipher.doFinal(input.getBytes());
-
         // 输出加密后的数据
-        String encode = Base64.encode(bytes);
-
+        String encode = new String(Base64.getEncoder().encode(bytes));
         return encode;
     }
 
@@ -106,7 +103,7 @@ public class Example02_DES {
         SecretKeySpec sks = new SecretKeySpec(key.getBytes(), algorithm);
         cipher.init(Cipher.DECRYPT_MODE, sks);
         // 3. 解密，上面使用的base64编码，下面直接用密文
-        byte[] bytes = cipher.doFinal(Base64.decode(input));
+        byte[] bytes = cipher.doFinal(Base64.getDecoder().decode(input));
         //  因为是明文，所以直接返回
         return new String(bytes);
     }
