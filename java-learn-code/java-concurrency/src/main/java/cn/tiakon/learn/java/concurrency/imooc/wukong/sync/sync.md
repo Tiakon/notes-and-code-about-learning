@@ -17,7 +17,7 @@
 
 ###### 不控制并发的后果 
 
-![01-不使用并发手段会有什么后果](R:\code\project-source\notes-and-code-about-learning\java-learn-code\java-concurrency\src\main\java\cn\tiakon\learn\java\concurrency\imooc\wukong\sync\01-不使用并发手段会有什么后果.png)
+![01-不使用并发手段会有什么后果](01-不使用并发手段会有什么后果.png)
 
 
 
@@ -53,11 +53,11 @@
      3.两个线程同时访问的是synchronized静态方法。
         串行
      
-     4.同时访问同步方法与非同步方法。 
+     4.两个线程同时访问同步方法与非同步方法。 
         一个对象时，并行。
         两个对象时，并行。
      
-     5.访问同一个对象的不同的普通同步方法。
+     5.两个线程访问同一个对象的不同的普通同步方法。
         串行
      
      6.同时访问静态synchronized和非静态synchronized方法。
@@ -73,7 +73,7 @@
         
         2. 每个实例都对应有自己的一把锁，不同实例之间互不影响；
             
-            例外：锁对象是*.class 以及 synchronized 修饰的是static方法的时候，所有对象共用同意吧类锁（对应第2、3、4、6种情况）；
+            例外：锁对象是*.class 以及 synchronized 修饰的是static方法的时候，所有对象共用同一把类锁（对应第2、3、4、6种情况）；
         
         3. 无论是方法正常执行完毕或者方法抛出异常，都是释放锁（对应第7中情况）。
     
@@ -196,7 +196,7 @@
     什么是JVM里的倾斜锁、轻量级锁、重量级锁？
 
 
-  
+
 ### 9、总结
 
     1. 一句话总结 synchronized？

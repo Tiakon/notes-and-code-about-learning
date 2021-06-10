@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author Administrator
  */
-public class SimpleDateFormat2Test {
+public class SimpleDateFormatTest01 {
 
     private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
@@ -36,14 +36,4 @@ public class SimpleDateFormat2Test {
             });
         }
     }
-}
-
-
-class SimpleDateFormatThreadLocal{
-
-
-    public static void main(String[] args) {
-        ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<>();
-    }
-
 }

@@ -8,8 +8,17 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
+/**
+ * 1. 连接服务器端，退出标志识别。
+ * 2. 客户端消息广播。
+ * <p>
+ * last time   : 2021/1/2 23:32
+ *
+ * @author tiankai.me@gmail.com on 2021/1/2 23:32.
+ */
 @Slf4j
 public class ChatServer {
 
@@ -20,7 +29,7 @@ public class ChatServer {
 
     private Selector selector;
     private ServerSocketChannel serverSocketChannel;
-    private Charset charset = Charset.forName("UTF-8");
+    private Charset charset = StandardCharsets.UTF_8;
     private ByteBuffer readByteBuffer = ByteBuffer.allocate(BUFFER_SIZE);
     private ByteBuffer writeByteBuffer = ByteBuffer.allocate(BUFFER_SIZE);
 
@@ -40,34 +49,28 @@ public class ChatServer {
             // 关闭阻塞
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.socket().bind(new InetSocketAddress(port));
-
             // 监听所有channel的状态变化
             selector = Selector.open();
-
             // channel 向 Selector 注册监听状态。
             log.debug(">> serverSocketChannel 执行 register()...");
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             log.info(">> 启动服务器，监听端口:{} ...", port);
-
             while (true) {
                 // 扫描所有注册的 channel ，监听 channel 所触发的事件。
                 log.debug(">> 执行 select()...");
                 selector.select();
-
                 log.debug(">> 开始获取 selectionKeys...");
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
-
                 log.debug(">> 开始遍历 selectionKeys...");
                 for (SelectionKey selectionKey : selectionKeys) {
                     log.debug(">> 开始事件处理...");
                     // 处理被触发的事件
                     handles(selectionKey);
                 }
-                // 完成处理后，清空过期事件。
                 log.debug(">> 执行 clear()...");
+                // 完成处理后，清空过期事件。
                 selectionKeys.clear();
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -85,7 +88,7 @@ public class ChatServer {
             clientSocketChannel.configureBlocking(false);
             log.debug(">> clientSocketChannel 执行 register()...");
             clientSocketChannel.register(selector, SelectionKey.OP_READ);
-            log.info(">> 客户端[{}],已连接...", getCilentSocketPort(clientSocketChannel));
+            log.info(">> 客户端[{}],已连接...", getClientSocketPort(clientSocketChannel));
         }
         // READ事件   - 客户端发送了消息
         else if (selectionKey.isReadable()) {
@@ -115,7 +118,7 @@ public class ChatServer {
                 if (readyToQuit(fwdMsg)) {
                     selectionKey.cancel();
                     selector.wakeup();
-                    log.info(">> 客户端[{}],已断开...", getCilentSocketPort(clientSocketChannel));
+                    log.info(">> 客户端[{}],已断开...", getClientSocketPort(clientSocketChannel));
                 }
             }
         }
@@ -129,7 +132,7 @@ public class ChatServer {
             }
             if (selectionKey.isValid() && (readyToQuit(fwdMsg) || !clientSocketChannel.equals(connectedClient))) {
                 writeByteBuffer.clear();
-                writeByteBuffer.put(charset.encode(getCilentSocketPort(clientSocketChannel) + ":" + fwdMsg));
+                writeByteBuffer.put(charset.encode(getClientSocketPort(clientSocketChannel) + ":" + fwdMsg));
                 writeByteBuffer.flip();
                 while (writeByteBuffer.hasRemaining()) {
                     ((SocketChannel) connectedClient).write(writeByteBuffer);
@@ -145,7 +148,7 @@ public class ChatServer {
         return String.valueOf(charset.decode(readByteBuffer));
     }
 
-    private int getCilentSocketPort(SocketChannel clientSocketChannel) {
+    private int getClientSocketPort(SocketChannel clientSocketChannel) {
         return clientSocketChannel.socket().getPort();
     }
 

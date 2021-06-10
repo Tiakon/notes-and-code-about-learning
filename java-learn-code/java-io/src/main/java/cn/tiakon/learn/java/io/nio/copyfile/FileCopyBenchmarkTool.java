@@ -11,8 +11,7 @@ interface FileCopyRunner {
 /**
  * @author Administrator
  */
-public class FileCopyDemo {
-
+public class FileCopyBenchmarkTool {
 
     private static final int ROUNDS = 10;
 
@@ -71,40 +70,6 @@ public class FileCopyDemo {
             }
         };
 
-        FileCopyRunner bufferedStreamCopy = new FileCopyRunner() {
-            @Override
-            public void copyFile(File source, File target) {
-                InputStream fileInputStream = null;
-                OutputStream fileOutputStream = null;
-                try {
-
-                    fileInputStream = new BufferedInputStream(new FileInputStream(source));
-                    fileOutputStream = new BufferedOutputStream(new FileOutputStream(target));
-
-                    byte[] buffer = new byte[capacity];
-
-                    int readTotalNum;
-                    // 读入缓冲区的字节总数，如果读到末尾没有更多数据则返回-1。
-                    while ((readTotalNum = fileInputStream.read(buffer)) != -1) {
-                        fileOutputStream.write(buffer, 0, readTotalNum);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    close(fileInputStream);
-                    close(fileOutputStream);
-                }
-
-            }
-
-
-            @Override
-            public String toString() {
-                return "bufferedStreamCopy";
-            }
-
-        };
-
         FileCopyRunner nioBufferCopy = new FileCopyRunner() {
             @Override
             public void copyFile(File source, File target) {
@@ -140,6 +105,40 @@ public class FileCopyDemo {
             public String toString() {
                 return "nioBufferCopy";
             }
+        };
+
+        FileCopyRunner bufferedStreamCopy = new FileCopyRunner() {
+            @Override
+            public void copyFile(File source, File target) {
+                InputStream fileInputStream = null;
+                OutputStream fileOutputStream = null;
+                try {
+
+                    fileInputStream = new BufferedInputStream(new FileInputStream(source));
+                    fileOutputStream = new BufferedOutputStream(new FileOutputStream(target));
+
+                    byte[] buffer = new byte[capacity];
+
+                    int readTotalNum;
+                    // 读入缓冲区的字节总数，如果读到末尾没有更多数据则返回-1。
+                    while ((readTotalNum = fileInputStream.read(buffer)) != -1) {
+                        fileOutputStream.write(buffer, 0, readTotalNum);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    close(fileInputStream);
+                    close(fileOutputStream);
+                }
+
+            }
+
+
+            @Override
+            public String toString() {
+                return "bufferedStreamCopy";
+            }
+
         };
 
         FileCopyRunner nioTransferCopy = new FileCopyRunner() {
@@ -186,7 +185,6 @@ public class FileCopyDemo {
         benchmark(bufferedStreamCopy, bigFile, bigFileCopy);
         benchmark(nioBufferCopy, bigFile, bigFileCopy);
         benchmark(nioTransferCopy, bigFile, bigFileCopy);
-
 
         File hugeFile = new File("R:\\data\\test\\file\\cdh-env-jars.tar.gz");
         File hugeFileCopy = new File("R:\\data\\test\\target\\cdh-env-jars.tar.gz");

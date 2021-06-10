@@ -11,24 +11,42 @@ public class ThreadPoolExample4 {
 
     public static void main(String[] args) {
 
-        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+        log.warn("main start...");
 
-//        executorService.schedule(new Runnable() {
-//            @Override
-//            public void run() {
-//                log.warn("schedule run");
-//            }
-//        }, 3, TimeUnit.SECONDS);
+        ScheduledExecutorService executorService = Executors.newScheduledThreadPool(5);
 
-        executorService.scheduleAtFixedRate(() -> log.warn("schedule run"), 2, 3, TimeUnit.SECONDS);
-//        executorService.shutdown();
+        Runnable runnable = () -> {
+            log.warn("runnable  start...");
+            int mark = new Double(Math.random() * 10).intValue();
+            log.warn("mark={} , 的任务开始", mark);
 
-  /*      Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                log.warn("timer run");
+            if (mark % 2 == 0) {
+                try {
+                    int a = 1 / (mark % 2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    try {
+                        Thread.sleep(3000);
+                        log.warn("mark={} , 的任务结束", mark);
+                    } catch (InterruptedException interruptedException) {
+                        interruptedException.printStackTrace();
+                    }
+                }
+            } else {
+                log.warn("mark={} , 的任务结束", mark);
             }
-        }, new Date(), 5 * 1000);*/
+        };
+
+        // 没有使用try catch的话，如果任务的任何执行遇到异常，则将禁止后续执行。
+        // 使用try catch的话 ，当前任务执行完成后才会执行下一个任务。
+        executorService.scheduleAtFixedRate(runnable, 1, 2, TimeUnit.SECONDS);
+
+        try {
+            executorService.awaitTermination(Integer.MAX_VALUE, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        log.warn("main end...");
     }
 }

@@ -10,6 +10,7 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Set;
 
 @Slf4j
@@ -25,7 +26,7 @@ public class ChatClient {
 
     private Selector selector;
     private SocketChannel clientSocketChannel;
-    private Charset charset = Charset.forName("UTF-8");
+    private Charset charset = StandardCharsets.UTF_8;
     private ByteBuffer readByteBuffer = ByteBuffer.allocate(BUFFER_SIZE);
     private ByteBuffer writeByteBuffer = ByteBuffer.allocate(BUFFER_SIZE);
 
@@ -39,41 +40,32 @@ public class ChatClient {
     }
 
     private void start() {
-
         try {
             clientSocketChannel = SocketChannel.open();
             clientSocketChannel.configureBlocking(false);
-
+            clientSocketChannel.connect(new InetSocketAddress(host, port));
             selector = Selector.open();
-
             log.debug(">> clientSocketChannel 执行 register()...");
             clientSocketChannel.register(selector, SelectionKey.OP_CONNECT);
-            clientSocketChannel.connect(new InetSocketAddress(host, port));
-
             while (true) {
+
                 log.debug(">> 执行 select()...");
                 selector.select();
-
                 log.debug(">> 开始获取 selectionKeys...");
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
-
                 log.debug(">> 开始遍历 selectionKeys...");
                 for (SelectionKey selectionKey : selectionKeys) {
                     log.debug(">> 开始事件处理...");
                     handles(selectionKey);
                 }
-
                 log.debug(">> 执行 clear()...");
                 selectionKeys.clear();
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             close(selector);
         }
-
-
     }
 
     private void handles(SelectionKey selectionKey) throws IOException {
@@ -102,10 +94,7 @@ public class ChatClient {
             } else {
                 System.out.println(msg);
             }
-
-
         }
-
     }
 
     private String receive(SocketChannel clientSocketChannel) throws IOException {
@@ -119,7 +108,6 @@ public class ChatClient {
         if (msg.isEmpty()) {
             return;
         }
-
         writeByteBuffer.clear();
         writeByteBuffer.put(charset.encode(msg));
         writeByteBuffer.flip();
@@ -128,14 +116,13 @@ public class ChatClient {
         }
         // 检查用户是否准备退出
         if (readyToQuit(msg)) {
-            System.out.println(getCilentSocketPort(clientSocketChannel) + ",已断开...");
+            System.out.println(getClientSocketPort(clientSocketChannel) + ",已断开...");
             close(selector);
             System.exit(0);
         }
-
     }
 
-    private int getCilentSocketPort(SocketChannel clientSocketChannel) {
+    private int getClientSocketPort(SocketChannel clientSocketChannel) {
         return clientSocketChannel.socket().getPort();
     }
 
@@ -153,11 +140,8 @@ public class ChatClient {
         return QUIT.equals(msg);
     }
 
-
     public static void main(String[] args) {
         ChatClient chatClient = new ChatClient();
         chatClient.start();
     }
-
-
 }

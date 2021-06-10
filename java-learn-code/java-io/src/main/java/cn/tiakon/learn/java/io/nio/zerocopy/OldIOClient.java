@@ -4,13 +4,13 @@ import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.Socket;
-
+// 发送总字节数： 108189239, 耗时： 336
 public class OldIOClient {
 
     public static void main(String[] args) throws Exception {
-        Socket socket = new Socket("localhost", 7001);
+        Socket socket = new Socket("localhost", 7002);
 
-        String fileName = "protoc-3.6.1-win32.zip";
+        String fileName = "other\\test.tar.gz";
         InputStream inputStream = new FileInputStream(fileName);
 
         DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());

@@ -78,12 +78,13 @@ public class Example03_SocketChannelAndSelect {
         //循环等待客户端连接
         while (true) {
 
+            // selector.select(long timeout):监控所有注册的通道，当其中有IO操作可以进行时，将对应的 SelectionKey 加入到内部集合中并返回，参数用来设置超时时间
             //这里我们等待1秒，如果没有事件发生, 返回
             if (selector.select(5000) == 0) { //没有事件发生
                 System.out.println("当前无连接...");
                 continue;
             }
-
+            //  selector.selectedKeys():从内部集合中得到所有的  SelectionKey
             //如果返回的>0, 就获取到相关的 selectionKey 集合
             //1. 如果返回的>0， 表示已经获取到关注的事件
             //2. selector.selectedKeys() 返回关注事件的集合
@@ -101,7 +102,9 @@ public class Example03_SocketChannelAndSelect {
                 // 处理连接事件
                 if (key.isAcceptable()) {
                     //OP_ACCEPT:有新的客户端连接
-                    SocketChannel socketChannel = serverSocketChannel.accept();
+//                    SocketChannel socketChannel = serverSocketChannel.accept();
+                    ServerSocketChannel serverSocketChannel1 = (ServerSocketChannel) key.channel();
+                    SocketChannel socketChannel = serverSocketChannel1.accept();
                     System.out.println("客户端连接成功...");
                     //将 SocketChannel 设置为非阻塞
                     socketChannel.configureBlocking(false);

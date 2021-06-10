@@ -22,7 +22,6 @@ public class UserInputHandler implements Runnable {
     public void run() {
         try {
             BufferedReader consoleReader = CommonUtils.getBufferedReaderBySystemIn();
-
             while (true) {
                 String input = consoleReader.readLine();
                 // 向服务器端发送消息

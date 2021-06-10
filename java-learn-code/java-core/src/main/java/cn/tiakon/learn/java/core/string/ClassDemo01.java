@@ -8,7 +8,7 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 
 
-public class Demo01 {
+public class ClassDemo01 {
 
     /**
      * 将KV格式的字符串转换成MAP

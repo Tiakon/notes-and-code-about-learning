@@ -36,8 +36,8 @@ public class Demo11_Join {
         t2.start();
         System.out.println("开始等待子线程执行完毕...");
 //         注释掉join代码，再观察输出结果
-//        t1.join();
-//        t2.join();
+        t1.join();
+        t2.join();
         System.out.println("所有子线程执行完毕。");
 
     }

@@ -15,16 +15,18 @@ import java.util.Arrays;
  * Buffer子类的用法:
  * IntBuffer
  * MappedByteBuffer
+ * 0 <= mark <= position <= limit <= capacity
  *
  * @author Administrator
  */
 public class Example01_Buffer {
 
     public static void main(String[] args) throws IOException {
-        useByteBufferMethod();
-        readOnlyBuffer();
-        useIntBufferMethod();
-        useMappedByteBufferMethod();
+//        useByteBufferMethod();
+        useByteBufferMethod02();
+//        readOnlyBuffer();
+//        useIntBufferMethod();
+//        useMappedByteBufferMethod();
     }
 
     public static void useByteBufferMethod() {
@@ -47,6 +49,48 @@ public class Example01_Buffer {
         System.out.println(buffer.getLong());
         System.out.println(buffer.getChar());
         System.out.println(buffer.getShort());
+
+    }
+
+    public static void useByteBufferMethod02() {
+        ByteBuffer bb = ByteBuffer.allocate(6);
+
+        bb.put(new Byte("1"));
+        bb.put(new Byte("2"));
+        bb.put(new Byte("3"));
+        bb.put(new Byte("4"));
+        System.out.println(bb.position());
+        System.out.println(bb.limit());
+        // 将缓冲区的limit属性设置为当前位置，将当前位置设置为0 ，并重置标记;重新写时，需要调用buffer.clear() ,清除 limit 限制。
+        bb.flip();
+        System.out.println(bb.position());
+        System.out.println(bb.limit());
+        bb.clear();
+        bb.put(new Byte("1"));
+        bb.put(new Byte("2"));
+        bb.put(new Byte("3"));
+        bb.put(new Byte("4"));
+        bb.put(new Byte("5"));
+        bb.put(new Byte("6"));
+        System.out.println(bb.position());
+        System.out.println(bb.limit());
+        bb.clear();
+
+        bb.put(new Byte("1"));
+        bb.put(new Byte("2"));
+        bb.put(new Byte("3"));
+        bb.put(new Byte("4"));
+
+        bb.rewind();  // 将当前位置设置为 0 并重置标记，可直接重新写覆盖旧数据，不需要调用 clear
+
+        bb.put(new Byte("1"));
+        bb.put(new Byte("2"));
+        bb.put(new Byte("3"));
+        bb.put(new Byte("4"));
+        bb.put(new Byte("5"));
+        bb.put(new Byte("6"));
+        System.out.println(bb.position());
+        System.out.println(bb.limit());
 
     }
 

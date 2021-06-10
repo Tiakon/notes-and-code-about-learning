@@ -22,8 +22,9 @@ public class Example02_FileChannel {
         // UTF-8 编码中 一个中文字符 = 3个字节
 //        writeLocalFile();
 //        readLocalFile();
-        copyLocalFileByBuffer();
+//        copyLocalFileByBuffer();
 //        copyLocalFileByChannel();
+
     }
 
     private static void writeLocalFile() throws IOException {
