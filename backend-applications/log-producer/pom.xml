@@ -48,7 +48,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.49</version>
+            <version>8.0.16</version>
         </dependency>
 
         <!-- 为所有 Java 日志实现提供统一接口      -->
